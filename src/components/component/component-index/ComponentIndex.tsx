@@ -15,6 +15,8 @@ import { ButtonGroup, Dropdown } from 'react-bootstrap'
 import { useTranslations } from 'next-intl'
 import { COMMON_NAMESPACE } from '@/object-types/Constants'
 import { Session } from '@/object-types/Session'
+import { useRouter } from 'next/navigation'
+
 
 interface Props {
   session? : Session
@@ -22,6 +24,11 @@ interface Props {
 
 const ComponentIndex = ({ session }: Props) => {
   const t = useTranslations(COMMON_NAMESPACE);
+  const router = useRouter();
+
+  const handleAddClick = () => {;
+    router.push("/components/add");
+  }
 
   return (
     <div className='container' style={{ maxWidth: '98vw', marginTop: '10px' }}>
@@ -32,7 +39,7 @@ const ComponentIndex = ({ session }: Props) => {
         <div className='col'>
           <div className='btn-toolbar' role='toolbar'>
             <div className='btn-group' role='group'>
-              <button type='button' className='btn btn-primary'>{t('Add Component')}</button>
+              <button type='button' className='btn btn-primary' onClick={handleAddClick}>{t('Add Component')}</button>
               <button type='button' className='btn btn-secondary'>{t('Import SBOM')}</button>
             </div>
             <Dropdown as={ButtonGroup}>

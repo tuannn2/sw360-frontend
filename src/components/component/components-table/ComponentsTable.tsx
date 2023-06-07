@@ -48,6 +48,7 @@ const ComponentsTable = ({ session }: Props) => {
   const handleClickDelete = (componentId: any) => {
     setDeletingComponent(componentId);
     setDeleteDialogOpen(true);
+    console.log(componentData[0]);
   }
 
   const fetchData: any = useCallback(async (queryUrl: string, signal: any) => {
@@ -92,6 +93,7 @@ const ComponentsTable = ({ session }: Props) => {
       controller.abort();
     }
   }, [fetchData, params]);
+
 
   return (
     <>
