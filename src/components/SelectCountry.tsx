@@ -14,7 +14,7 @@ export default function SelectCountryComponent() {
 
     return(
         <>
-            <label htmlFor="country" className="form-label fw-bold">Country</label>
+            <label htmlFor="country" className="form-label fw-bold">Owner Country</label>
             <select className="form-select" aria-label="country" id="country" defaultValue="">
                 <option value="">Select a country</option>
                 {getData().map((country: any) => (

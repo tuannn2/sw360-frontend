@@ -65,7 +65,7 @@ export default function AddKeyValueComponent(props: Props) {
                         )
                     })
                 }
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                     <button type="button" onClick={() => handleAddClick()} className={`fw-bold btn btn-light ${styles['button-plain']}`}>{`Click to add row to ${props.keyName.split(" ").map((elem) => elem[0].toUpperCase() + elem.substring(1)).join(" ")}`}</button>
                 </div>
             </div>

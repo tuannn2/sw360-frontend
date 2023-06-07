@@ -10,12 +10,16 @@
 import React, { useState } from 'react'
 import styles from "@/css/AddKeyValue.module.css"
 
+interface Props {
+    isComponent: boolean;
+}
+
 interface Input {
     role: string;
     email: string;
 }
 
-export default function AddAdditionalRolesComponent() {
+export default function AddAdditionalRolesComponent(props: Props) {
 
     const [inputList, setInputList] = useState<Input[]>([]);
 
@@ -36,6 +40,10 @@ export default function AddAdditionalRolesComponent() {
         setInputList([...inputList, { role: "Stakeholder", email: "" }]);
     };
 
+    const defaultValue = () => {
+        return props.isComponent? "Commiter" : "Stakeholder";
+    }
+
     return(
         <>
             <div className={`${styles["header"]} mb-2`}>
@@ -47,16 +55,28 @@ export default function AddAdditionalRolesComponent() {
                         return (
                             <div className="row mb-2" key ="">
                                 <div className="col-lg-5">
-                                    <select className="form-select" key ="" name="role" value={elem.role} aria-label="additional role" defaultValue={"Stakeholder"} onChange={e => handleInputChange(e, j)}>
-                                        <option value="Stakeholder">Stakeholder</option>
-                                        <option value="Analyst">Analyst</option>
-                                        <option value="Contributor">Contributor</option>
-                                        <option value="Accountant">Accountant</option>
-                                        <option value="End User">End User</option>
-                                        <option value="Quality Manager">Quality Manager</option>
-                                        <option value="Test Manager">Test Manager</option>
-                                        <option value="Technical writer">Technical writer</option>
-                                        <option value="Key User">Key User</option>
+                                    <select className="form-select" key ="" name="role" value={elem.role} aria-label="additional role" defaultValue = {defaultValue()} onChange={e => handleInputChange(e, j)}>
+                                        {
+                                        props.isComponent
+                                        ?
+                                        <>
+                                            <option value="Committer">Committer</option>
+                                            <option value="Contributor">Contributor</option>
+                                            <option value="Expert">Expert</option>
+                                        </>
+                                        :
+                                        <>
+                                            <option value="Stakeholder">Stakeholder</option>
+                                            <option value="Analyst">Analyst</option>
+                                            <option value="Contributor">Contributor</option>
+                                            <option value="Accountant">Accountant</option>
+                                            <option value="End User">End User</option>
+                                            <option value="Quality Manager">Quality Manager</option>
+                                            <option value="Test Manager">Test Manager</option>
+                                            <option value="Technical writer">Technical writer</option>
+                                            <option value="Key User">Key User</option>
+                                        </>
+                                        }
                                     </select>
                                 </div>
                                 <div className="col-lg-5">
@@ -69,7 +89,7 @@ export default function AddAdditionalRolesComponent() {
                         )
                     })
                 }
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                     <button type="button" onClick={() => handleAddClick()} className={`fw-bold btn btn-light ${styles['button-plain']}`}>Click to add row to Additional Roles</button>
                 </div>
             </div>
