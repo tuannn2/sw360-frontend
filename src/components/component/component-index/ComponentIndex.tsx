@@ -23,6 +23,7 @@ interface Props {
 }
 
 const ComponentIndex = ({ session }: Props) => {
+  console.log("----ComponentIndex-----"+session)
   const t = useTranslations(COMMON_NAMESPACE);
   const router = useRouter();
 
