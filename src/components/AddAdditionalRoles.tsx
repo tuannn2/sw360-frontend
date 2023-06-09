@@ -12,6 +12,7 @@ import styles from "@/css/AddKeyValue.module.css"
 
 interface Props {
     isComponent: boolean;
+    onChange: any
 }
 
 interface Input {
@@ -28,8 +29,9 @@ export default function AddAdditionalRolesComponent(props: Props) {
         const list: Input[] = [...inputList];
         list[index][name as keyof Input] = value;
         setInputList(list);
+        props.onChange(list);
     };
-
+    
     const handleRemoveClick = (index: number) => {
         const list = [...inputList];
         list.splice(index, 1);
@@ -37,7 +39,9 @@ export default function AddAdditionalRolesComponent(props: Props) {
     };
 
     const handleAddClick = () => {
-        setInputList([...inputList, { role: "Stakeholder", email: "" }]);
+        props.isComponent? 
+        setInputList([...inputList, { role: "Committer", email: "" }]) 
+        : setInputList([...inputList, { role: "Stakeholder", email: "" }]);
     };
 
     const defaultValue = () => {

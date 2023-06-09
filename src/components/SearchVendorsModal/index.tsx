@@ -10,6 +10,8 @@
 import React, { useState } from 'react'
 import styles from "@/css/SearchModal.module.css"
 import { Vendor } from "./Vendor"
+import SelectTableVendor from './SelectTableVendor';
+import { ModalDialog } from 'react-bootstrap';
 // import SelectableTableComponent from "@/components/table/selectableTable"
 // import { ColumnType, Table } from "@/components/table/table"
 
@@ -26,8 +28,19 @@ export default function SearchVendorsModalComponent({ chooseVendor }: Props) : J
       setVendor(v);
     };
 
+    const [openDialog, handleDisplay] = React.useState(false);
+
+    const handleClose = () => {
+       handleDisplay(false);
+    };
+ 
+    const openDialogBox = () => {
+       handleDisplay(true);
+    };
+
     return(
         <>
+        <ModalDialog>
             <div className="modal fade" id="search_vendors_modal" tabIndex={-1} aria-labelledby="Search Vendors Modal" aria-hidden="true">
                 <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content">
@@ -45,7 +58,7 @@ export default function SearchVendorsModalComponent({ chooseVendor }: Props) : J
                                 </div>
                             </div>
                             <div className="row mt-3">
-                                {/* <SelectableTableComponent chooseValueFromTable={chooseVendorFromTable} table={table} /> */}
+                                <SelectTableVendor  />
                             </div>
                         </div>
                         <div className="modal-footer">
@@ -56,6 +69,8 @@ export default function SearchVendorsModalComponent({ chooseVendor }: Props) : J
                     </div>
                 </div>
             </div>
+        </ModalDialog>
+
         </>
     );
 }
