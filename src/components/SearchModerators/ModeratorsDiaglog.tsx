@@ -12,14 +12,14 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Session } from '@/object-types/Session'
-import SelectTableVendor from './SelectTableVendor';
 import styles from "@/css/SearchModal.module.css"
 import { notFound } from 'next/navigation';
 import ApiUtils from '@/utils/api/api.util';
 import HttpStatus from '@/object-types/enums/HttpStatus';
 import { useCallback, useEffect, useState } from 'react';
 import CommonUtils from '@/utils/common.utils';
-import Vendor from '@/object-types/Vendor';
+import SelectTableComponentOwner from './SelectTableComponentOwner';
+import User from '@/object-types/User';
 
 interface Props {
   show?: boolean,
@@ -27,7 +27,7 @@ interface Props {
   session? : Session
 }
 
-const VendorDialog = ({ show, setShow, session}: Props) => {
+const ModeratorsDiaglog = ({ show, setShow, session}: Props) => {
 
   const [data, setData] = useState([]);
   const [showDataSearch, setshowDataSearch] =useState([]);
@@ -51,12 +51,12 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
   }, [])
 
   useEffect(() => {
-    fetchData(`vendors`).then((vendors: any) => {
-      console.log(vendors)
-      if (!CommonUtils.isNullOrUndefined(vendors['_embedded'])
-        && !CommonUtils.isNullOrUndefined(vendors['_embedded']['sw360:vendors'])) {
-        const data = vendors['_embedded']['sw360:vendors'].map((item: Vendor) =>
-          [item.id, item.fullName, item.shortName, item.url])
+    fetchData(`users`).then((users: any) => {
+      console.log(users)
+      if (!CommonUtils.isNullOrUndefined(users['_embedded'])
+        && !CommonUtils.isNullOrUndefined(users['_embedded']['sw360:users'])) {
+        const data = users['_embedded']['sw360:users'].map((item: User) =>
+          [item.id, item.givenName, item.lastName, item.email, item.department])
         setData(data)
       }
     })
@@ -72,13 +72,13 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
       size='lg'
     >
       <Modal.Header closeButton>
-        <Modal.Title>Search Vendor</Modal.Title>
+        <Modal.Title>Search User</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="modal-body">
             <div className="row">
                 <div className="col-lg-6">
-                    <input type="text" className="form-control" placeholder="Enter search text..." aria-describedby="Search Vendor" />
+                    <input type="text" className="form-control" placeholder="Enter search text..." aria-describedby="Search User" />
                 </div>
                 <div className="col-lg-4">
                     <button type="button" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={searchVendor}>Search</button>
@@ -86,17 +86,17 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
                 </div>
             </div>
             <div className="row mt-3">
-                <SelectTableVendor session={session}  showData={showDataSearch} />
+                <SelectTableComponentOwner session={session}  showData={showDataSearch} />
             </div>
         </div>
       </Modal.Body>
       <Modal.Footer className='justify-content-end' >
         <Button type="button" data-bs-dismiss="modal" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={handleCloseDialog}>Close</Button>
-        <Button type="button" className={`fw-bold btn btn-light ${styles['button-plain']}`}>Add Vendor</Button>
-        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} >Select Vendor</Button>
+        <Button type="button" className={`fw-bold btn btn-light ${styles['button-plain']}`}>Add User</Button>
+        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} >Select User</Button>
       </Modal.Footer>
     </Modal>
   )
 }
 
-export default VendorDialog
+export default ModeratorsDiaglog

@@ -22,13 +22,15 @@ import ComponentPayload from "@/object-types/ComponentPayLoad";
 import MapData from "@/object-types/MapData";
 import VendorDialog from "@/components/SearchVendorsModal/VendorDialog";
 import { Session } from "@/object-types/Session";
+import ComponentOwnerDiaglog from "@/components/SearchComponentOwner/ComponentOwnerDialog";
+import ModeratorsDiaglog from "@/components/SearchModerators/ModeratorsDiaglog";
 
 interface Props {
     session? : Session
 }
 
 export default function ComponentAddSummary({ session }: Props) {
-    console.log("----Summary-----"+session)
+
     const [selectedTab, setSelectedTab] = useState<string>(CommonTabIds.SUMMARY)
     const router = useRouter();
     const [componentPayload, setComponentPayload] = useState<ComponentPayload>({
@@ -53,7 +55,11 @@ export default function ComponentAddSummary({ session }: Props) {
 
     const [dialogOpen, setDialogOpen] = useState(false)
 
-    const handleClick = useCallback(() => setDialogOpen(true), []);
+    const handleClickSearchVendor = useCallback(() => setDialogOpen(true), []);
+
+    const handleClickSearchComponentOwner = useCallback(() => setDialogOpen(true), []);
+
+    const handleClickSearchModerators = useCallback(() => setDialogOpen(true), []);
 
     const tabList = [
         {
@@ -193,7 +199,7 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <label htmlFor="default_vendor" className="form-label fw-bold">Default Vendor</label>
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_vendors_modal" 
                                             placeholder="Click to set vendor" id="default_vendor" aria-describedby="Vendor" 
-                                            readOnly={true} name = "defaultVendorId" onClick={handleClick} value={componentPayload.defaultVendorId}/> 
+                                            readOnly={true} name = "defaultVendorId" onClick={handleClickSearchVendor} value={componentPayload.defaultVendorId}/>
                                             <div id="default_vendor" className="form-text"><i className="bi bi-x-circle">1111</i></div>
                                             <VendorDialog show={dialogOpen} setShow={setDialogOpen}  session={session}/>
                                         </div>
@@ -250,7 +256,8 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <label htmlFor="component_owner" className="form-label fw-bold">Component Owner</label>
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_users_modal" 
                                             placeholder="Click to edit" id="component_owner" aria-describedby="component_owner" readOnly={true} 
-                                            name = "componentOwner" onChange={updateField} value={componentPayload.componentOwner}/>
+                                            name = "componentOwner" onClick={handleClickSearchComponentOwner} onChange={updateField} value={componentPayload.componentOwner}/>
+                                            <ComponentOwnerDiaglog show={dialogOpen} setShow={setDialogOpen}  session={session}/>
                                         </div>
                                         <div className="col-lg-4">
                                             <label htmlFor="owner_accounting_unit" className="form-label fw-bold">Owner Accounting Unit</label>
@@ -274,7 +281,8 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <label htmlFor="moderators" className="form-label fw-bold">Moderators</label>
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_users_modal" 
                                             placeholder="Click to edit" id="moderators" aria-describedby="Moderators" readOnly={true} 
-                                            name = "moderators" onChange={updateField} value={componentPayload.moderators}/>
+                                            name = "moderators" onChange={updateField} value={componentPayload.moderators} onClick={handleClickSearchModerators}/>
+                                             <ModeratorsDiaglog show={dialogOpen} setShow={setDialogOpen}  session={session}/>
                                         </div>
                                     </div>
                                     <hr className="my-4" />

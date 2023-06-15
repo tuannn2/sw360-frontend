@@ -2,14 +2,15 @@
 
 import { Grid } from 'gridjs-react'
 import { Session } from '@/object-types/Session'
-import Vendor from '@/object-types/Vendor'
+import User from '@/object-types/User'
 
 interface Props {
   session?: Session,
-  showData: Array<Vendor>
+  showData: Array<User>
 }
 
-const SelectTableVendor = ({session, showData} : Props) => {
+const SelectTableModerators = ({session, showData} : Props) => {
+  
   return (
     <>
       <div className='row'>
@@ -21,16 +22,20 @@ const SelectTableVendor = ({session, showData} : Props) => {
               sort: true
             },
             {
-              name: "FullName",
+              name: "GivenName",
            
               sort: true
             },
             {
-              name: "ShortName",
+              name: "LastName",
               sort: true
             },
             {
-              name: "URL",
+              name: "Email",
+              sort: true
+            },
+            {
+              name: "Department",
               sort: true
             }
           ]}
@@ -49,4 +54,4 @@ const SelectTableVendor = ({session, showData} : Props) => {
 }
 
 
-export default SelectTableVendor;
+export default SelectTableModerators;
