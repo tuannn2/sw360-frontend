@@ -3,6 +3,8 @@
 import { Grid } from 'gridjs-react'
 import { Session } from '@/object-types/Session'
 import User from '@/object-types/User'
+import { _ } from 'gridjs-react'
+import { Form } from 'react-bootstrap'
 
 interface Props {
   session?: Session,
@@ -10,36 +12,55 @@ interface Props {
 }
 
 const SelectTableModerators = ({session, showData} : Props) => {
-  
+
+
+
+
+
   return (
     <>
       <div className='row'>
         <Grid
           data={showData}
           columns={[
+            // {
+            //   name: _(<Form.Check type='checkbox'></Form.Check>),
+            //   formatter: (externalId: string) => _(<Form.Check type='checkbox' ></Form.Check>),
+            // },
             {
               name: "",
-              sort: true
+              formatter: (id: string) => _(<Form.Check type='checkbox' ></Form.Check>),
+              width: '7%'
             },
             {
               name: "GivenName",
-           
+              width: '14%',
               sort: true
             },
             {
               name: "LastName",
-              sort: true
+              sort: true,
+              width: '14%',
             },
             {
               name: "Email",
-              sort: true
+              sort: true,
+              width: '40%',
             },
             {
               name: "Department",
               sort: true
             }
           ]}
-
+          pagination={{
+            limit: 100
+          }}
+          search={true}
+          language={{
+            search: {
+              placeholder: "🔍 Search..."
+            }
+          }}
           style={{
             header: {
               display: 'block',

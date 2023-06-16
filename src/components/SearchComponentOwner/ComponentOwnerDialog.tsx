@@ -77,12 +77,12 @@ const ComponentOwnerDiaglog = ({ show, setShow, session}: Props) => {
       <Modal.Body>
         <div className="modal-body">
             <div className="row">
-                <div className="col-lg-6">
+                {/* <div className="col-lg-6">
                     <input type="text" className="form-control" placeholder="Enter search text..." aria-describedby="Search User" />
-                </div>
+                </div> */}
                 <div className="col-lg-4">
                     <button type="button" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={searchVendor}>Search</button>
-                    <button type="button" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={searchVendor}>Reset</button>
+                    {/* <button type="button" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={searchVendor}>Reset</button> */}
                 </div>
             </div>
             <div className="row mt-3">

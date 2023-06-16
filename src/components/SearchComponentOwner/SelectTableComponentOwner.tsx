@@ -3,6 +3,8 @@
 import { Grid } from 'gridjs-react'
 import { Session } from '@/object-types/Session'
 import User from '@/object-types/User'
+import { _ } from 'gridjs-react'
+import { Form } from 'react-bootstrap'
 
 interface Props {
   session?: Session,
@@ -19,7 +21,8 @@ const SelectTableComponentOwner = ({session, showData} : Props) => {
           columns={[
             {
               name: "",
-              sort: true
+              formatter: (id: string) => _(<Form.Check type='radio' ></Form.Check>),
+              width: '10%'
             },
             {
               name: "GivenName",
@@ -39,7 +42,15 @@ const SelectTableComponentOwner = ({session, showData} : Props) => {
               sort: true
             }
           ]}
-
+          pagination={{
+            limit: 100
+          }}
+          search={true}
+          language={{
+            search: {
+              placeholder: "🔍 Search..."
+            }
+          }}
           style={{
             header: {
               display: 'block',

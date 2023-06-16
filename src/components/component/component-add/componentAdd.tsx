@@ -53,13 +53,15 @@ export default function ComponentAddSummary({ session }: Props) {
         blog: '',
     });
 
-    const [dialogOpen, setDialogOpen] = useState(false)
+    const [dialogOpenVendor, setDialogOpenVendor] = useState(false)
+    const [dialogOpenComponentOwner, setDialogOpenComponentOwner] = useState(false)
+    const [dialogOpenModerators, setDialogOpenModerators] = useState(false)
 
-    const handleClickSearchVendor = useCallback(() => setDialogOpen(true), []);
+    const handleClickSearchVendor = useCallback(() => setDialogOpenVendor(true), []);
 
-    const handleClickSearchComponentOwner = useCallback(() => setDialogOpen(true), []);
+    const handleClickSearchComponentOwner = useCallback(() => setDialogOpenComponentOwner(true), []);
 
-    const handleClickSearchModerators = useCallback(() => setDialogOpen(true), []);
+    const handleClickSearchModerators = useCallback(() => setDialogOpenModerators(true), []);
 
     const tabList = [
         {
@@ -200,8 +202,8 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_vendors_modal" 
                                             placeholder="Click to set vendor" id="default_vendor" aria-describedby="Vendor" 
                                             readOnly={true} name = "defaultVendorId" onClick={handleClickSearchVendor} value={componentPayload.defaultVendorId}/>
-                                            <div id="default_vendor" className="form-text"><i className="bi bi-x-circle">1111</i></div>
-                                            <VendorDialog show={dialogOpen} setShow={setDialogOpen}  session={session}/>
+                                            <div id="default_vendor" className="form-text"><i className="bi bi-x-circle"></i></div>
+                                            <VendorDialog show={dialogOpenVendor} setShow={setDialogOpenVendor}  session={session}/>
                                         </div>
                                         <div className="col-lg-4">
                                             <label htmlFor="tag" className="form-label fw-bold">Homepage Url</label>
@@ -257,7 +259,7 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_users_modal" 
                                             placeholder="Click to edit" id="component_owner" aria-describedby="component_owner" readOnly={true} 
                                             name = "componentOwner" onClick={handleClickSearchComponentOwner} onChange={updateField} value={componentPayload.componentOwner}/>
-                                            <ComponentOwnerDiaglog show={dialogOpen} setShow={setDialogOpen}  session={session}/>
+                                            <ComponentOwnerDiaglog show={dialogOpenComponentOwner} setShow={setDialogOpenComponentOwner}  session={session}/>
                                         </div>
                                         <div className="col-lg-4">
                                             <label htmlFor="owner_accounting_unit" className="form-label fw-bold">Owner Accounting Unit</label>
@@ -282,7 +284,7 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_users_modal" 
                                             placeholder="Click to edit" id="moderators" aria-describedby="Moderators" readOnly={true} 
                                             name = "moderators" onChange={updateField} value={componentPayload.moderators} onClick={handleClickSearchModerators}/>
-                                             <ModeratorsDiaglog show={dialogOpen} setShow={setDialogOpen}  session={session}/>
+                                             <ModeratorsDiaglog show={dialogOpenModerators} setShow={setDialogOpenModerators}  session={session}/>
                                         </div>
                                     </div>
                                     <hr className="my-4" />

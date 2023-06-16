@@ -30,6 +30,7 @@ interface Props {
 const VendorDialog = ({ show, setShow, session}: Props) => {
 
   const [data, setData] = useState([]);
+  const [inputSeach, setInputSearch] = useState('');
   const [showDataSearch, setshowDataSearch] =useState([]);
 
   const handleCloseDialog = () => {
@@ -37,7 +38,14 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
   }
 
   const searchVendor = () => {
+    // if (inputSeach == null){
+      
+    // } else {
+    //   // assss
+    // }
     setshowDataSearch(data);
+    console.log(data)
+    
   }
 
   const fetchData: any = useCallback(async (url: string) => {
@@ -55,8 +63,8 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
       console.log(vendors)
       if (!CommonUtils.isNullOrUndefined(vendors['_embedded'])
         && !CommonUtils.isNullOrUndefined(vendors['_embedded']['sw360:vendors'])) {
-        const data = vendors['_embedded']['sw360:vendors'].map((item: Vendor) =>
-          [item.id, item.fullName, item.shortName, item.url])
+        const data = vendors['_embedded']['sw360:vendors'].map((item: any) =>
+          [item._links.self.href, item.fullName, item.shortName, item.url])
         setData(data)
       }
     })
@@ -77,12 +85,11 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
       <Modal.Body>
         <div className="modal-body">
             <div className="row">
-                <div className="col-lg-6">
-                    <input type="text" className="form-control" placeholder="Enter search text..." aria-describedby="Search Vendor" />
-                </div>
+                {/* <div className="col-lg-6">
+                    <input type="text" className="form-control" placeholder="Enter search text..." aria-describedby="Search Vendor"  onChange={(event) => {setInputSearch(event.target.value)}} />
+                </div> */}
                 <div className="col-lg-4">
                     <button type="button" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={searchVendor}>Search</button>
-                    <button type="button" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={searchVendor}>Reset</button>
                 </div>
             </div>
             <div className="row mt-3">
