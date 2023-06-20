@@ -22,14 +22,16 @@ import User from '@/object-types/User';
 import SelectTableModerators from './SelectTableModerators';
 
 interface Props {
-  show?: boolean,
-  setShow?: React.Dispatch<React.SetStateAction<boolean>>,
+  show?: boolean
+  setShow?: React.Dispatch<React.SetStateAction<boolean>>
   session? : Session
+  onChange: any
 }
 
-const ModeratorsDiaglog = ({ show, setShow, session}: Props) => {
+const ModeratorsDiaglog = ({ show, setShow, session, onChange}: Props) => {
 
   const [data, setData] = useState([]);
+  const [moderators, setmoderators] = useState<Array<string>>(['tuan@gmail.com']);
   const [showDataSearch, setshowDataSearch] =useState([]);
 
   const handleCloseDialog = () => {
@@ -55,12 +57,20 @@ const ModeratorsDiaglog = ({ show, setShow, session}: Props) => {
       console.log(users)
       if (!CommonUtils.isNullOrUndefined(users['_embedded'])
         && !CommonUtils.isNullOrUndefined(users['_embedded']['sw360:users'])) {
-        const data = users['_embedded']['sw360:users'].map((item: User) =>
-          [item.id, item.givenName, item.lastName, item.email, item.department])
+        const data = users['_embedded']['sw360:users'].map((item: any) =>
+          [item, item.givenName, item.lastName, item.email, item.department])
         setData(data)
       }
     })
   }, []);
+
+  const handleClickSelectModerators = () => {
+    console.log(moderators)
+    onChange(moderators)
+    setShow(!show);
+  }
+
+  const getModeratorIds = useCallback((email: string[]) => setmoderators(email), []);
 
 
   return (
@@ -86,14 +96,14 @@ const ModeratorsDiaglog = ({ show, setShow, session}: Props) => {
                 </div>
             </div>
             <div className="row mt-3">
-                <SelectTableModerators session={session}  showData={showDataSearch} />
+                <SelectTableModerators session={session}  showData={showDataSearch} onChange={getModeratorIds} email={moderators} />
             </div>
         </div>
       </Modal.Body>
       <Modal.Footer className='justify-content-end' >
         <Button type="button" data-bs-dismiss="modal" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={handleCloseDialog}>Close</Button>
         <Button type="button" className={`fw-bold btn btn-light ${styles['button-plain']}`}>Add User</Button>
-        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} >Select User</Button>
+        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} onClick={handleClickSelectModerators}>Select User</Button>
       </Modal.Footer>
     </Modal>
   )

@@ -5,14 +5,20 @@ import { Session } from '@/object-types/Session'
 import User from '@/object-types/User'
 import { _ } from 'gridjs-react'
 import { Form } from 'react-bootstrap'
+import React, { useState } from 'react'
 
 interface Props {
   session?: Session,
   showData: Array<User>
+  onChange: any
 }
 
-const SelectTableComponentOwner = ({session, showData} : Props) => {
+const SelectTableComponentOwner = ({session, showData, onChange} : Props) => {
   
+  const handlerRadioButton = (email: string) => {
+    onChange(email)
+  }
+
   return (
     <>
       <div className='row'>
@@ -21,7 +27,7 @@ const SelectTableComponentOwner = ({session, showData} : Props) => {
           columns={[
             {
               name: "",
-              formatter: (id: string) => _(<Form.Check type='radio' ></Form.Check>),
+              formatter: (email: string) => _(<Form.Check name='componentOwner' type='radio' onClick={() => handlerRadioButton(email)} ></Form.Check>),
               width: '10%'
             },
             {
@@ -43,7 +49,7 @@ const SelectTableComponentOwner = ({session, showData} : Props) => {
             }
           ]}
           pagination={{
-            limit: 100
+            limit: 10
           }}
           search={true}
           language={{
@@ -65,4 +71,4 @@ const SelectTableComponentOwner = ({session, showData} : Props) => {
 }
 
 
-export default SelectTableComponentOwner;
+export default React.memo(SelectTableComponentOwner);

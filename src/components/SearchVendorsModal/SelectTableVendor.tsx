@@ -5,30 +5,36 @@ import { Session } from '@/object-types/Session'
 import Vendor from '@/object-types/Vendor'
 import { Form } from 'react-bootstrap'
 import { _ } from 'gridjs-react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 interface Props {
   session?: Session,
-  showData: Array<Vendor>
+  showData: Array<Vendor>,
+  onChange: any
 }
 
-const SelectTableVendor = ({session, showData} : Props) => {
+const SelectTableVendor = (props : Props) => {
 
   const handlerRadioButton = (id: string) => {
-    console.log(id)
+    const vendorId: string =  handleId(id);
+    props.onChange(vendorId)
+  }
+
+  const handleId = (id: string): string => {
+    const splits: string[] = id.split("/");
+    return splits[splits.length-1];
   }
 
 
   return (
     <>
-      {/* Grid.on('cellClick', (...args) => console.log('cell: ' + JSON.stringify(args), args)); */}
       <div className='row'>
 
         <Grid 
-          data={showData}
+          data={props.showData}
           columns={[
             {
               name: "",
-              formatter: (id: string) => _(<Form.Check type='radio' onClick={() => handlerRadioButton(id)}></Form.Check>),
+              formatter: (id: string) => _(<Form.Check type='radio' name='VendorId' onChange={() => handlerRadioButton(id)}></Form.Check>),
             },
             {
               name: "FullName",
@@ -74,4 +80,4 @@ const SelectTableVendor = ({session, showData} : Props) => {
 }
 
 
-export default SelectTableVendor;
+export default React.memo(SelectTableVendor);

@@ -5,15 +5,28 @@ import { Session } from '@/object-types/Session'
 import User from '@/object-types/User'
 import { _ } from 'gridjs-react'
 import { Form } from 'react-bootstrap'
+import React, { useState } from 'react'
 
 interface Props {
   session?: Session,
   showData: Array<User>
+  onChange: any
+  email: Array<string>
 }
 
-const SelectTableModerators = ({session, showData} : Props) => {
+const SelectTableModerators = ({session, showData, onChange, email} : Props) => {
+
+  
 
 
+  const handlerRadioButton = (item: any) => {
+    // const emails: Array<string> = email;
+    console.log(item)
+    // emails.push(emailModerator)
+    // console.log("sau")
+    // console.log(emails)
+    // setmoderators(emails)
+  }
 
 
 
@@ -23,13 +36,9 @@ const SelectTableModerators = ({session, showData} : Props) => {
         <Grid
           data={showData}
           columns={[
-            // {
-            //   name: _(<Form.Check type='checkbox'></Form.Check>),
-            //   formatter: (externalId: string) => _(<Form.Check type='checkbox' ></Form.Check>),
-            // },
             {
               name: "",
-              formatter: (id: string) => _(<Form.Check type='checkbox' ></Form.Check>),
+              formatter: (item: string) => _(<Form.Check name='moderatorId' type='checkbox' onClick={() => {handlerRadioButton(item)}} ></Form.Check>),
               width: '7%'
             },
             {
@@ -53,7 +62,7 @@ const SelectTableModerators = ({session, showData} : Props) => {
             }
           ]}
           pagination={{
-            limit: 100
+            limit: 10
           }}
           search={true}
           language={{
@@ -75,4 +84,4 @@ const SelectTableModerators = ({session, showData} : Props) => {
 }
 
 
-export default SelectTableModerators;
+export default React.memo(SelectTableModerators);

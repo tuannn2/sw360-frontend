@@ -102,10 +102,26 @@ export default function ComponentAddSummary({ session }: Props) {
         });
     };
 
-    // const selectVendor = () => {
-    //     console.log("--------------------------");
-    //     //  <SearchVendorsModalComponent  />
-    // }
+    const setVendorId = (id: string) => {
+        setComponentPayload({
+            ...componentPayload,
+            defaultVendorId: id
+        });
+    };
+
+    const setComponentOwnerId = (email: string) => {
+        setComponentPayload({
+            ...componentPayload,
+            componentOwner: email
+        });
+    };
+
+    const setModerators = (emails: string[]) => {
+        setComponentPayload({
+            ...componentPayload,
+            moderators: emails
+        });
+    };
 
     const submit = () => {
 
@@ -203,7 +219,7 @@ export default function ComponentAddSummary({ session }: Props) {
                                             placeholder="Click to set vendor" id="default_vendor" aria-describedby="Vendor" 
                                             readOnly={true} name = "defaultVendorId" onClick={handleClickSearchVendor} value={componentPayload.defaultVendorId}/>
                                             <div id="default_vendor" className="form-text"><i className="bi bi-x-circle"></i></div>
-                                            <VendorDialog show={dialogOpenVendor} setShow={setDialogOpenVendor}  session={session}/>
+                                            <VendorDialog show={dialogOpenVendor} setShow={setDialogOpenVendor} onChange={setVendorId} session={session}/>
                                         </div>
                                         <div className="col-lg-4">
                                             <label htmlFor="tag" className="form-label fw-bold">Homepage Url</label>
@@ -259,7 +275,7 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_users_modal" 
                                             placeholder="Click to edit" id="component_owner" aria-describedby="component_owner" readOnly={true} 
                                             name = "componentOwner" onClick={handleClickSearchComponentOwner} onChange={updateField} value={componentPayload.componentOwner}/>
-                                            <ComponentOwnerDiaglog show={dialogOpenComponentOwner} setShow={setDialogOpenComponentOwner}  session={session}/>
+                                            <ComponentOwnerDiaglog show={dialogOpenComponentOwner} setShow={setDialogOpenComponentOwner}  session={session} onChange={setComponentOwnerId}/>
                                         </div>
                                         <div className="col-lg-4">
                                             <label htmlFor="owner_accounting_unit" className="form-label fw-bold">Owner Accounting Unit</label>
@@ -284,7 +300,7 @@ export default function ComponentAddSummary({ session }: Props) {
                                             <input type="text" className="form-control" data-bs-toggle="modal" data-bs-target="#search_users_modal" 
                                             placeholder="Click to edit" id="moderators" aria-describedby="Moderators" readOnly={true} 
                                             name = "moderators" onChange={updateField} value={componentPayload.moderators} onClick={handleClickSearchModerators}/>
-                                             <ModeratorsDiaglog show={dialogOpenModerators} setShow={setDialogOpenModerators}  session={session}/>
+                                             <ModeratorsDiaglog show={dialogOpenModerators} setShow={setDialogOpenModerators}  session={session} onChange={setModerators}/>
                                         </div>
                                     </div>
                                     <hr className="my-4" />

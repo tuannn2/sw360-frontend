@@ -10,8 +10,8 @@
 
 export default interface Vendor {
     id: string,
-    fullName: string,
-    shortName: string,
-    url: string
-    _links: string
+    fullName?: string,
+    shortName?: string,
+    url?: string
+    _links?: string
 }

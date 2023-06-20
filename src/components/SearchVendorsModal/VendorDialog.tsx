@@ -17,7 +17,7 @@ import styles from "@/css/SearchModal.module.css"
 import { notFound } from 'next/navigation';
 import ApiUtils from '@/utils/api/api.util';
 import HttpStatus from '@/object-types/enums/HttpStatus';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import CommonUtils from '@/utils/common.utils';
 import Vendor from '@/object-types/Vendor';
 
@@ -25,27 +25,20 @@ interface Props {
   show?: boolean,
   setShow?: React.Dispatch<React.SetStateAction<boolean>>,
   session? : Session
+  onChange: any
 }
 
-const VendorDialog = ({ show, setShow, session}: Props) => {
+const VendorDialog = ({ show, setShow, session, onChange}: Props) => {
 
   const [data, setData] = useState([]);
-  const [inputSeach, setInputSearch] = useState('');
+  const [vendorId, setVendorId] = useState<string>();
   const [showDataSearch, setshowDataSearch] =useState([]);
-
   const handleCloseDialog = () => {
     setShow(!show);
   }
 
   const searchVendor = () => {
-    // if (inputSeach == null){
-      
-    // } else {
-    //   // assss
-    // }
     setshowDataSearch(data);
-    console.log(data)
-    
   }
 
   const fetchData: any = useCallback(async (url: string) => {
@@ -64,12 +57,22 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
       if (!CommonUtils.isNullOrUndefined(vendors['_embedded'])
         && !CommonUtils.isNullOrUndefined(vendors['_embedded']['sw360:vendors'])) {
         const data = vendors['_embedded']['sw360:vendors'].map((item: any) =>
-          [item._links.self.href, item.fullName, item.shortName, item.url])
+          [item._links.self.href, item.fullName, item.shortName, item.url,''])
         setData(data)
       }
     })
-  }, []);
+  }, [data.length]);
 
+  const handleClickSelectVendor = () => {
+    console.log(vendorId)
+    onChange(vendorId)
+    setShow(!show);
+    // onChange(vendorId)
+
+  }
+  // const handleClickSelectVendor = useCallback(() => getVendorId(id), []);
+
+  const getVendorId = useCallback((id: string) => setVendorId(id), []);
 
   return (
     <Modal
@@ -93,14 +96,14 @@ const VendorDialog = ({ show, setShow, session}: Props) => {
                 </div>
             </div>
             <div className="row mt-3">
-                <SelectTableVendor session={session}  showData={showDataSearch} />
+                <SelectTableVendor session={session}  showData={showDataSearch} onChange={getVendorId}/>
             </div>
         </div>
       </Modal.Body>
       <Modal.Footer className='justify-content-end' >
         <Button type="button" data-bs-dismiss="modal" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={handleCloseDialog}>Close</Button>
         <Button type="button" className={`fw-bold btn btn-light ${styles['button-plain']}`}>Add Vendor</Button>
-        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} >Select Vendor</Button>
+        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} onClick={handleClickSelectVendor} >Select Vendor</Button>
       </Modal.Footer>
     </Modal>
   )

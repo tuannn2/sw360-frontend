@@ -22,14 +22,16 @@ import SelectTableComponentOwner from './SelectTableComponentOwner';
 import User from '@/object-types/User';
 
 interface Props {
-  show?: boolean,
-  setShow?: React.Dispatch<React.SetStateAction<boolean>>,
+  show?: boolean
+  setShow?: React.Dispatch<React.SetStateAction<boolean>>
   session? : Session
+  onChange: any
 }
 
-const ComponentOwnerDiaglog = ({ show, setShow, session}: Props) => {
+const ComponentOwnerDiaglog = ({ show, setShow, session, onChange}: Props) => {
 
   const [data, setData] = useState([]);
+  const [componentOwnerId, setComponentOwnerId] = useState<string>();
   const [showDataSearch, setshowDataSearch] =useState([]);
 
   const handleCloseDialog = () => {
@@ -55,13 +57,20 @@ const ComponentOwnerDiaglog = ({ show, setShow, session}: Props) => {
       console.log(users)
       if (!CommonUtils.isNullOrUndefined(users['_embedded'])
         && !CommonUtils.isNullOrUndefined(users['_embedded']['sw360:users'])) {
-        const data = users['_embedded']['sw360:users'].map((item: User) =>
-          [item.id, item.givenName, item.lastName, item.email, item.department])
+        const data = users['_embedded']['sw360:users'].map((item: any) =>
+          [item.email, item.givenName, item.lastName, item.email, item.department])
         setData(data)
       }
     })
   }, []);
 
+  const handleClickSelectComponentOwnerId = () => {
+    console.log(componentOwnerId)
+    onChange(componentOwnerId)
+    setShow(!show);
+  }
+
+  const getComponentOwnerId = useCallback((email: string) => setComponentOwnerId(email), []);
 
   return (
     <Modal
@@ -86,14 +95,14 @@ const ComponentOwnerDiaglog = ({ show, setShow, session}: Props) => {
                 </div>
             </div>
             <div className="row mt-3">
-                <SelectTableComponentOwner session={session}  showData={showDataSearch} />
+                <SelectTableComponentOwner session={session}  showData={showDataSearch} onChange={getComponentOwnerId} />
             </div>
         </div>
       </Modal.Body>
       <Modal.Footer className='justify-content-end' >
         <Button type="button" data-bs-dismiss="modal" className={`fw-bold btn btn-light ${styles['button-plain']} me-2`} onClick={handleCloseDialog}>Close</Button>
         <Button type="button" className={`fw-bold btn btn-light ${styles['button-plain']}`}>Add User</Button>
-        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} >Select User</Button>
+        <Button type="button" className={`fw-bold btn btn-light ${styles['button-orange']}`} onClick={handleClickSelectComponentOwnerId} >Select User</Button>
       </Modal.Footer>
     </Modal>
   )
